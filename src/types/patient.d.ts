@@ -125,7 +125,7 @@ interface TverifyPaymentResponse {
 
 interface BookAppointmentDTO {
   fullName: string;
-  email: string;
+  email?: string;
   phoneNumber: string;
   availableDate: Date | undefined | string;
   phoneNumber: string;

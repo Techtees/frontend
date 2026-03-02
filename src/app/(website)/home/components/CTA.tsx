@@ -1,4 +1,5 @@
 import { Title } from '@/atoms/typographys';
+import ROUTES from '@/constants/routes';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -25,7 +26,7 @@ const CTA = () => {
             </p>
           </div>
           <Link
-            href=""
+            href={ROUTES.LOGIN.path}
             className="flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 font-bold text-blue-400 shadow-lg transition hover:bg-blue-50 sm:w-auto sm:min-w-[200px] md:w-[250px] md:px-6 md:py-4"
           >
             <span>Get Started</span>

@@ -155,7 +155,9 @@ const Status = ({ variant, type, className, ...rest }: IButtonProps) => {
       case EnumUserStatus.INVITED:
         return 'status-violet';
       case EnumUserStatus.AVAILABLE:
-        return 'status-green';
+        return 'status-blue';
+      case EnumUserStatus.UNAVAILABLE:
+        return 'status-neutral';
       case EnumUserStatus.SUSPENDED:
         return 'status-red';
 

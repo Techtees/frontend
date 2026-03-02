@@ -495,17 +495,16 @@
         </div>
       </div>
 
-      
       <!-- Footer -->
       <div class="download-buttons">
         <script>
           const attachments = [
-            { href: "test_result.pdf", label: "Attachment 1" },
-            { href: "test_result.docx", label: "Attachment 2" },
-            { href: "test_result.csv", label: "Attachment 3" },
+            { href: 'test_result.pdf', label: 'Attachment 1' },
+            { href: 'test_result.docx', label: 'Attachment 2' },
+            { href: 'test_result.csv', label: 'Attachment 3' }
           ];
 
-          attachments.forEach(att => {
+          attachments.forEach((att) => {
             const a = document.createElement('a');
             a.href = att.href;
             a.className = 'download-button';

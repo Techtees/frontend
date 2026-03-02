@@ -5,8 +5,8 @@ const testimonials = [
   {
     id: 1,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Robert Fox',
+      'NBIOTEK LABS has transformed how I receive healthcare. The telehealth service allowed me to consult with a specialist without traveling, and my test results were delivered promptly with clear explanations. Outstanding service!',
+    name: 'Adaeze Okonkwo',
     role: 'Patient',
     avatar: '/avatar.jpg',
     rating: 5
@@ -14,8 +14,8 @@ const testimonials = [
   {
     id: 2,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Dianne Russell',
+      'As a physician, I rely on accurate diagnostics to make informed decisions. NBIOTEK LABS consistently delivers precise results with fast turnaround times. Their commitment to excellence is evident in every interaction.',
+    name: 'Dr. Chukwuemeka Nwosu',
     role: 'Doctor',
     avatar: '/avatar.jpg',
     rating: 5
@@ -23,8 +23,35 @@ const testimonials = [
   {
     id: 3,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Eleanor Pena',
+      'The R&D facilities at NBIOTEK are world-class. As a researcher, I appreciate their state-of-the-art equipment and supportive environment. They are truly advancing medical science in Nigeria.',
+    name: 'Prof. Amina Bello',
+    role: 'Researcher',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 4,
+    quote:
+      'From booking my test online to receiving results through their digital platform, everything was seamless. The staff was compassionate and professional. I highly recommend NBIOTEK LABS to anyone seeking quality healthcare.',
+    name: 'Oluwaseun Adeleke',
+    role: 'Patient',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 5,
+    quote:
+      'NBIOTEK LABS understands that patient care comes first. Their modern technology combined with a personal touch makes them stand out. They have set a new standard for diagnostic services in Nigeria.',
+    name: 'Dr. Funmilayo Ibrahim',
+    role: 'Doctor',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 6,
+    quote:
+      'I was impressed by the accuracy and reliability of my test results. The team at NBIOTEK took time to explain everything, making me feel confident about my health decisions. Truly patient-centered care.',
+    name: 'Chidinma Okoro',
     role: 'Patient',
     avatar: '/avatar.jpg',
     rating: 5
@@ -92,8 +119,8 @@ const TestimonialSlider = () => {
         <div className="mb-6 flex flex-col space-y-4 sm:mb-8 md:mb-10 md:flex-row md:items-start md:justify-between md:space-y-0">
           <div className="max-w-xl md:max-w-2xl">
             <h2 className="text-gray-900 text-xl font-bold sm:text-2xl md:text-3xl">
-              What Our Users Are Saying: Hear from patients and doctors about their experiences with
-              NBIOTEK.
+              what our users and partners are saying: Hear from patients and doctors about their
+              experiences with NBIOTEK.
             </h2>
           </div>
           <div className="flex space-x-2 self-end">
@@ -141,7 +168,7 @@ const TestimonialSlider = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {visibleIndices.map((index) => {
+          {/* {visibleIndices.map((index) => {
             const testimonial = testimonials[index];
             return (
               <div
@@ -183,7 +210,7 @@ const TestimonialSlider = () => {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
 
         <div className="mt-4 flex justify-center space-x-1 sm:mt-6 md:hidden">

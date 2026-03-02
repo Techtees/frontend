@@ -26,13 +26,16 @@ import BonkingConfirmationDialog from './components/BookingConfirmation';
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 import BookingForSelfModal from './components/BookingSelfDialog';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
+import { useDoctorRecommendationFee } from '@/hooks/patient/useDoctorRecommendationFee';
 
 type LocationType = 'Lab' | 'Custom';
 
 const LAB_LOCATIONS = [
-  { id: 'lab1', name: 'Lab1', address: 'Medicare Hospital, 18 Iwaya Rd, Lagos' },
-  { id: 'lab2', name: 'Lab2', address: 'Central Lab, 45 Victoria Island, Lagos' },
-  { id: 'lab3', name: 'Lab3', address: 'Advanced Diagnostics, 12 Ikeja GRA, Lagos' }
+  {
+    id: 'lab1',
+    name: 'Lab1',
+    address: 'Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria'
+  }
 ];
 
 const BookAppointmentView = observer(() => {
@@ -40,6 +43,7 @@ const BookAppointmentView = observer(() => {
     CartStore: { items, total, removeItem, clearCart }
   } = useStore();
   const { data } = usePatientInfo();
+  const { fee: doctorRecommendationFee } = useDoctorRecommendationFee();
 
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
@@ -67,7 +71,7 @@ const BookAppointmentView = observer(() => {
       address: LAB_LOCATIONS[0].address
     },
     availableDate: new Date(),
-    paymentMethod: 'via_card',
+    paymentMethod: 'location',
     wantDoctorRecommendation: 'no',
     testRequests: []
   });
@@ -120,9 +124,8 @@ const BookAppointmentView = observer(() => {
       newErrors.fullName = 'Full name is required';
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    const trimmedEmail = formData.email.trim();
+    if (trimmedEmail && !/\S+@\S+\.\S+/.test(trimmedEmail)) {
       newErrors.email = 'Please enter a valid email';
     }
 
@@ -170,8 +173,8 @@ const BookAppointmentView = observer(() => {
         type: value as LocationType,
         address: value === 'Lab' ? LAB_LOCATIONS[0].address : ''
       },
-      // Automatically set payment method to online for custom location
-      paymentMethod: value === 'Custom' ? 'via_card' : prev.paymentMethod
+      // Payment method is always location for patients
+      paymentMethod: 'location'
     }));
   };
 
@@ -412,11 +415,6 @@ const BookAppointmentView = observer(() => {
                         }))
                       }
                     />
-                    {formData.location.type === 'Custom' && (
-                      <p className="text-blue-600 mt-1 text-xs">
-                        Note: Custom location requires online payment
-                      </p>
-                    )}
                   </div>
                   {errors.location && (
                     <div className="mt-1 text-sm text-red-500">{errors.location}</div>
@@ -434,30 +432,19 @@ const BookAppointmentView = observer(() => {
                 className="flex"
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="via_card" id="r3" />
-                  <Label htmlFor="r3">Online</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="location"
-                    id="r4"
-                    disabled={formData.location.type === 'Custom'}
-                  />
-                  <Label
-                    htmlFor="r4"
-                    className={
-                      formData.location.type === 'Custom' ? 'cursor-not-allowed opacity-50' : ''
-                    }
-                  >
-                    Pay at location
+                  <RadioGroupItem value="via_card" id="r3" disabled />
+                  <Label htmlFor="r3" className="cursor-not-allowed opacity-50">
+                    Online
                   </Label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="location" id="r4" />
+                  <Label htmlFor="r4">Pay at location</Label>
+                </div>
               </RadioGroup>
-              {formData.location.type === 'Custom' && (
-                <p className="text-gray-500 mt-2 text-xs italic">
-                  Pay at location is only available for lab locations
-                </p>
-              )}
+              <p className="text-gray-500 mt-2 text-xs italic">
+                Online payment is currently not available. Please pay at the location.
+              </p>
             </div>
           </div>
           <div className="mt-3 w-full">
@@ -470,7 +457,7 @@ const BookAppointmentView = observer(() => {
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="dr-yes" />
-                  <Label htmlFor="dr-yes">Yes (₦2,000)</Label>
+                  <Label htmlFor="dr-yes">Yes (₦{doctorRecommendationFee.toLocaleString()})</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="no" id="dr-no" />

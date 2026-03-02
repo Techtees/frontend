@@ -26,14 +26,12 @@ const AdminTestModal = () => {
   const queryClient = useQueryClient();
   const isEditMode = testDetails.testId !== '';
 
-  const { data, status, error } = useFetchSingleTestId(testDetails.testId);
+  const { data, status } = useFetchSingleTestId(testDetails.testId);
 
   const form = useForm<TAdminSingleTestSchema>({
     defaultValues: {
       name: '',
       description: '',
-      price: '',
-      discountedPrice: '',
       requirements: '',
       category: ''
     },
@@ -44,20 +42,22 @@ const AdminTestModal = () => {
 
   useEffect(() => {
     if (isEditMode && data) {
-      form.reset({
+      const resetData: any = {
         name: data.name || '',
         description: data.description || '',
-        price: data.price?.toString() || '',
-        discountedPrice: data.discountedPrice?.toString() || '',
-        requirements: data.requirements?.join(', ') || '',
-        category: data.category || ''
-      });
+        testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? [],
+        category: data.category
+      };
+
+      if (data.price) resetData.price = data.price;
+      if (data.discountedPrice) resetData.discountedPrice = data.discountedPrice;
+      if (data.requirements.length > 0) resetData.requirements = data.requirements.join(', ');
+
+      form.reset(resetData);
     } else if (!isEditMode) {
       form.reset({
         name: '',
         description: '',
-        price: '',
-        discountedPrice: '',
         requirements: '',
         category: ''
       });
@@ -171,16 +171,22 @@ const AdminTestModal = () => {
               <FormField
                 control={form.control}
                 name="price"
-                render={({ field }) => (
+                render={({ field: { onChange, ...rest } }) => (
                   <div>
                     <InputNumberField
                       label="Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
                       prefix="₦"
+                      thousandSeparator=","
+                      min={1}
+                      decimalScale={0}
                       placeholder="₦10,000.00"
-                      required
-                      {...field}
+                      allowNegative={false}
+                      allowLeadingZeros={false}
+                      valueIsNumericString={true}
+                      onValueChange={(values) => {
+                        onChange(parseInt(values.value) || 0);
+                      }}
+                      {...rest}
                     />
                   </div>
                 )}
@@ -188,15 +194,22 @@ const AdminTestModal = () => {
               <FormField
                 control={form.control}
                 name="discountedPrice"
-                render={({ field }) => (
+                render={({ field: { onChange, ...rest } }) => (
                   <div>
                     <InputNumberField
-                      label="Discounted Price"
+                      label="Discounted price"
                       thousandSeparator=","
-                      decimalSeparator="."
                       prefix="₦"
+                      min={1}
+                      decimalScale={0}
                       placeholder="₦10,000.00"
-                      {...field}
+                      allowNegative={false}
+                      allowLeadingZeros={false}
+                      valueIsNumericString={true}
+                      onValueChange={(values) => {
+                        onChange(parseInt(values.value) || 0);
+                      }}
+                      {...rest}
                     />
                   </div>
                 )}

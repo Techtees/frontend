@@ -21,6 +21,7 @@ import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 import { CircleX } from 'lucide-react';
+import { useDoctorRecommendationFee } from '@/hooks/patient/useDoctorRecommendationFee';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -39,6 +40,7 @@ const CreateAppointmentView = () => {
   const {
     CartStore: { items, total, removeItem }
   } = useStore();
+  const { fee: doctorRecommendationFee } = useDoctorRecommendationFee();
 
   const handleTestModal = () => {
     setIsTestModalOpen(true);
@@ -135,6 +137,13 @@ const CreateAppointmentView = () => {
     setFormData((prev: any) => ({
       ...prev,
       paymentMethod: value
+    }));
+  };
+
+  const handleDoctorRecommendation = (value: string) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      wantDoctorRecommendation: value as 'yes' | 'no'
     }));
   };
 
@@ -404,6 +413,25 @@ const CreateAppointmentView = () => {
                   Pay at location is only available for lab locations
                 </p>
               )}
+            </div>
+          </div>
+          <div className="mt-3 w-full">
+            <div className="flex w-full flex-col">
+              <Label className="mb-3">Doctor Recommendation</Label>
+              <RadioGroup
+                value={formData.wantDoctorRecommendation}
+                onValueChange={handleDoctorRecommendation}
+                className="flex"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="yes" id="dr-yes" />
+                  <Label htmlFor="dr-yes">Yes (₦{doctorRecommendationFee.toLocaleString()})</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="no" id="dr-no" />
+                  <Label htmlFor="dr-no">No</Label>
+                </div>
+              </RadioGroup>
             </div>
           </div>
           <div className="mt-5">

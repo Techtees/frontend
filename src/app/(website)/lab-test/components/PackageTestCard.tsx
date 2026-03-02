@@ -72,15 +72,6 @@ const PackageTestCard = ({ test }: PackageTestCardProps) => {
               <Eye size={16} className="mr-2" />
               View Details & Pricing
             </Button>
-
-            <Button
-              variant="outlined"
-              className="text-blue-600 flex flex-1 items-center justify-center border-blue-400 text-sm font-medium hover:bg-blue-50"
-              onClick={handleRequestQuote}
-            >
-              <MessageCircle size={16} className="mr-2" />
-              Get Package Quote
-            </Button>
           </div>
 
           <div className="border-gray-100 border-t px-6 pb-4 pt-3 text-center">

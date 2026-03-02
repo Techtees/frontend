@@ -17,18 +17,19 @@ export const superAdmin = {
     };
   },
 
-  getSingleTest(query: Partial<TGeneralPaginatedQuery>) {
+  getSingleTest(query: Partial<TAdminTestQuery>) {
     return {
       path: SUPER_ADMIN.SINGLE_TEST,
-      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST],
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST, query],
       params: query
     };
   },
 
-  getPackageTest() {
+  getPackageTest(query: Partial<TAdminTestQuery>) {
     return {
       path: SUPER_ADMIN.PACKAGE_TEST,
-      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PACKAGE_TEST] as const
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PACKAGE_TEST, query] as const,
+      params: query
     };
   },
 
@@ -43,6 +44,21 @@ export const superAdmin = {
     return {
       path: SUPER_ADMIN.SINGLE_PACKAGE_TEST.replace(':id', id),
       keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_PACKAGE_TEST, id] as const
+    };
+  },
+
+  getTestTemplates() {
+    return {
+      path: SUPER_ADMIN.TEST_TEMPLATES,
+      keys: () => [SUPER_ADMIN.TEST_TEMPLATES] as const
+    };
+  },
+
+  getTestTemplateById(testId: string) {
+    return {
+      path: SUPER_ADMIN.TEST_TEMPLATES,
+      keys: () => [SUPER_ADMIN.TEST_TEMPLATES, testId] as const,
+      params: { testId }
     };
   },
 
@@ -94,6 +110,21 @@ export const superAdmin = {
     return {
       path: SUPER_ADMIN.CONTENT_PARTNERS,
       keys: () => [SUPER_ADMIN.CONTENT_PARTNERS]
+    };
+  },
+
+  getDoctorsFees() {
+    return {
+      path: SUPER_ADMIN.DOCTORS_FEES,
+      keys: () => [SUPER_ADMIN.DOCTORS_FEES]
+    };
+  },
+
+  getPatients(query: Partial<TAdminPatientQuery>) {
+    return {
+      path: SUPER_ADMIN.PATIENTS,
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PATIENTS, query] as const,
+      params: query
     };
   }
 };

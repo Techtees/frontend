@@ -43,6 +43,9 @@ const ModalsMap = {
   [AppModals.ADMIN_PACKAGE_TEST]: dynamic(
     () => import('@/app/(modules)/admin/content-management/components/modals/PackageTestModal')
   ),
+  [AppModals.ADMIN_TEST_TEMPLATE]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/TestTemplateModal')
+  ),
   [AppModals.ADMIN_DELETE_USER]: dynamic(
     () => import('@/app/(modules)/admin/user-management/components/modal/DeleteModal')
   ),
@@ -84,6 +87,21 @@ const ModalsMap = {
   [AppModals.CREATE_PARTNER_MODAL]: dynamic(
     () =>
       import('@/app/(modules)/admin/content-management/partners/components/modal/AddPartnerModal')
+  ),
+  [AppModals.CREATE_DOCTOR_FEE_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/doctors-fee/components/modal/AddDoctorFeeModal'
+      )
+  ),
+  [AppModals.DEL_DOCTOR_FEE_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/doctors-fee/components/modal/DelDoctorFeeModal'
+      )
+  ),
+  [AppModals.DEL_TEST_TEMPLATE_MODAL]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/DelTestTemplateModal')
   )
 };
 

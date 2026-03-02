@@ -72,6 +72,33 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
                 >
                   Edit
                 </DropdownMenuItem>
+                {!datum.tests && (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      toggleModals({
+                        name: AppModals.ADMIN_TEST_TEMPLATE,
+                        open: true,
+                        testId: datum.id,
+                        mode: 'create'
+                      });
+                    }}
+                  >
+                    Manage Template
+                  </DropdownMenuItem>
+                )}
+                {!datum.tests && (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      toggleModals({
+                        name: AppModals.DEL_TEST_TEMPLATE_MODAL,
+                        open: true,
+                        id: datum.id
+                      });
+                    }}
+                  >
+                    Delete Template
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   onClick={() => {
                     toggleModals({
@@ -161,6 +188,29 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
                             }}
                           >
                             Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              toggleModals({
+                                name: AppModals.ADMIN_TEST_TEMPLATE,
+                                open: true,
+                                testId: test.id,
+                                mode: 'create'
+                              });
+                            }}
+                          >
+                            Manage Template
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              toggleModals({
+                                name: AppModals.DEL_TEST_TEMPLATE_MODAL,
+                                open: true,
+                                id: test.id
+                              });
+                            }}
+                          >
+                            Delete Template
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

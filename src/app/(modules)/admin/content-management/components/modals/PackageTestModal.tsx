@@ -11,7 +11,7 @@ import { Loader } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import TextareaField from '@/atoms/fields/TextAreaField';
 import { SUPER_ADMIN } from '@/constants/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import InputMultiSelect from '@/atoms/fields/InputMultiSelect';
 import { Option } from '@/components/ui/multi-select';
 import { useFetchInfiniteSingleTest } from '@/hooks/admin/useFetchSingleTest';
@@ -20,22 +20,27 @@ import { useFetchPackageTestId } from '@/hooks/admin/useFetchPackageTestId';
 import InputNumberField from '@/atoms/fields/NumberInput';
 
 const AdminPackageTest = () => {
+  const [tests, setTests] = useState<Array<Option>>([]);
   const {
     AppConfigStore: { isOpen, toggleModals, testDetails },
     AdminStore: { addPackageTest, updatePackageTest, isLoading }
   } = useStore();
-
-  const { ref, inView } = useInView();
-
-  const [tests, setTests] = useState<Array<Option>>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const options = useMemo(
+    () => ({
+      root: scrollRef.current,
+      threshold: 0.1
+    }),
+    [scrollRef.current]
+  );
+  const { ref: lastRef, inView } = useInView(options);
   const {
     processedData,
     isLoading: isTestDataLoading,
-    isError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
-  } = useFetchInfiniteSingleTest({ limit: 20, page: 1 });
+  } = useFetchInfiniteSingleTest({ limit: 10, page: 1, status: 'ACTIVE' });
 
   const queryClient = useQueryClient();
   const isEditMode = testDetails.testId !== '';
@@ -76,20 +81,21 @@ const AdminPackageTest = () => {
 
   useEffect(() => {
     if (isEditMode && data) {
-      form.reset({
+      const resetData: any = {
         name: data.name || '',
         description: data.description || '',
-        price: data.price?.toString() || '',
-        discountedPrice: data.discountedPrice?.toString() || '',
-        requirements: data.requirements?.join(', ') || '',
         testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? []
-      });
+      };
+
+      if (data.price) resetData.price = data.price;
+      if (data.discountedPrice) resetData.discountedPrice = data.discountedPrice;
+      if (data.requirements.length > 0) resetData.requirements = data.requirements.join(', ');
+
+      form.reset(resetData);
     } else if (!isEditMode) {
       form.reset({
         name: '',
         description: '',
-        price: '',
-        discountedPrice: '',
         requirements: '',
         testIds: []
       });
@@ -174,10 +180,12 @@ const AdminPackageTest = () => {
                     required
                     {...field}
                     label={'Add Tests'}
-                    isLoading={true}
+                    isFetching={isTestDataLoading || isFetchingNextPage}
                     options={tests}
                     placeholder="Add tests to package..."
-                    lastElementRef={ref}
+                    lastElementRef={lastRef}
+                    fetchNextPage={() => fetchNextPage()}
+                    hasNextPage={hasNextPage}
                     emptyIndicator={
                       <p className="text-gray-600 dark:text-gray-400 text-center text-lg leading-10">
                         No Tests available.
@@ -219,15 +227,22 @@ const AdminPackageTest = () => {
               <FormField
                 control={form.control}
                 name="price"
-                render={({ field }) => (
+                render={({ field: { onChange, ...rest } }) => (
                   <div>
                     <InputNumberField
                       label="Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
                       prefix="₦"
+                      thousandSeparator=","
+                      min={1}
+                      decimalScale={0}
                       placeholder="₦10,000.00"
-                      {...field}
+                      allowNegative={false}
+                      allowLeadingZeros={false}
+                      valueIsNumericString={true}
+                      onValueChange={(values) => {
+                        onChange(parseInt(values.value) || 0);
+                      }}
+                      {...rest}
                     />
                   </div>
                 )}
@@ -235,17 +250,22 @@ const AdminPackageTest = () => {
               <FormField
                 control={form.control}
                 name="discountedPrice"
-                render={({ field }) => (
-                  <div>
-                    <InputNumberField
-                      label="Discounted Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      prefix="₦"
-                      placeholder="₦10,000.00"
-                      {...field}
-                    />
-                  </div>
+                render={({ field: { onChange, ...rest } }) => (
+                  <InputNumberField
+                    label="Discounted price"
+                    thousandSeparator=","
+                    prefix="₦"
+                    min={1}
+                    decimalScale={0}
+                    placeholder="₦10,000.00"
+                    allowNegative={false}
+                    allowLeadingZeros={false}
+                    valueIsNumericString={true}
+                    onValueChange={(values) => {
+                      onChange(parseInt(values.value) || 0);
+                    }}
+                    {...rest}
+                  />
                 )}
               />
             </fieldset>

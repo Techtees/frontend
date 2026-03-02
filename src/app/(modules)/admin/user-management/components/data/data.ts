@@ -4,6 +4,7 @@ import { EnumRole, EnumUserStatus } from '@/constants/mangle';
 
 export const callTypes = new Map<UserStatus, string>([
   [EnumUserStatus.ACTIVE, 'bg-blue-300/40 text-blue-400 dark:text-blue-200 border-blue-200'],
+  [EnumUserStatus.UNAVAILABLE, 'bg-neutral-300/40 border-neutral-300 text-neutral-300'],
   [EnumUserStatus.INACTIVE, 'bg-neutral-300/40 border-neutral-300'],
   [
     EnumUserStatus.INVITED,
@@ -28,6 +29,10 @@ export const userStatus = [
   {
     label: 'Suspended',
     value: EnumUserStatus.SUSPENDED
+  },
+  {
+    label: 'Unavailable',
+    value: EnumUserStatus.UNAVAILABLE
   }
 ];
 

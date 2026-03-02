@@ -2,12 +2,11 @@ import { useCallback, useMemo } from 'react';
 import { superAdmin } from './FetchKeyFactory';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getSingleTests } from '@/requests/admin';
-import { SUPER_ADMIN } from '@/constants/api';
 
 const select = (res: INBTServerResp<INBTPaginatedData<TAdminTestItem>>) => res.data;
 
 export function useFetchSingleTest(
-  query: Partial<TGeneralPaginatedQuery>
+  query: Partial<TAdminTestQuery>
 ): IQueryHookResponse<INBTPaginatedData<TAdminTestItemBase> | undefined> {
   const meta = superAdmin.getSingleTest(query);
   const memoizedSelect = useCallback(select, []);
@@ -21,7 +20,7 @@ export function useFetchSingleTest(
   return { data, isLoading, status, error };
 }
 
-export function useFetchInfiniteSingleTest(query: TGeneralPaginatedQuery) {
+export function useFetchInfiniteSingleTest(query: TAdminTestQuery) {
   const meta = superAdmin.getSingleTest(query);
 
   const queryKey = meta?.keys();

@@ -117,7 +117,6 @@ function ContactForm() {
                       format="%%%%%%"
                       patternChar="%"
                       maxLength={6}
-                      required
                       {...field}
                     />
                   </div>
@@ -128,7 +127,6 @@ function ContactForm() {
             <label className="mb-3 font-medium">
               <div className="flex items-center justify-start space-x-1">
                 <label className="">Emergency Contact</label>
-                <span className="text-red-300">*</span>
               </div>
             </label>
 
@@ -140,7 +138,6 @@ function ContactForm() {
                   render={({ field }) => (
                     <div className="md:mb-0 md:w-[50%]">
                       <InputField
-                        required
                         type="text"
                         id="emergencyContact.firstName"
                         label="First Name"
@@ -156,7 +153,6 @@ function ContactForm() {
                   render={({ field }) => (
                     <div className="md:mb-0 md:w-[50%]">
                       <InputField
-                        required
                         type="text"
                         id="emergencyContact.lastName"
                         label="Last Name"
@@ -172,7 +168,6 @@ function ContactForm() {
                 name="emergencyContact.address"
                 render={({ field }) => (
                   <InputField
-                    required
                     type="text"
                     id="emergencyContact.address"
                     label="Address"
@@ -184,7 +179,7 @@ function ContactForm() {
               <FormField
                 control={form.control}
                 name="emergencyContact.phoneNumber"
-                render={({ field }) => <InputPhoneField label="Phone number" required {...field} />}
+                render={({ field }) => <InputPhoneField label="Phone number" {...field} />}
               />
             </div>
           </fieldset>

@@ -1,5 +1,5 @@
 'use client';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { XModal } from '@/atoms/modal';
 import { Paragraph } from '@/atoms/typographys';
 import { useStore } from '@/store';
@@ -25,6 +25,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
 import { ChevronsDown, Plus, Trash, Upload } from 'lucide-react';
 import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
+import { useFetchTestTemplateById } from '@/hooks/admin/useFetchTestTemplateById';
 import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Toast } from '@/atoms/Toast';
@@ -44,6 +45,8 @@ const ResultUploadModal = () => {
   } = useStore();
 
   const { data, status } = useFetchTestByID(testDetails.testId);
+  const templateTestId = testDetails.originalTestId || data?.test?.id || '';
+  const { data: templateData } = useFetchTestTemplateById(templateTestId);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -121,6 +124,33 @@ const ResultUploadModal = () => {
     return true;
   })();
 
+  const templateRowCount = templateData?.parameters?.length ?? 0;
+
+  const applyTemplateRows = () => {
+    const normalizedRows = (templateData?.parameters || []).map((parameter) => ({
+      parameter: parameter.name || '',
+      result: '',
+      unit: (parameter as any).measurementUnit || (parameter as any).measurement_unit || '',
+      range: (parameter as any).referenceRange || (parameter as any).reference_range || '',
+      reference: ''
+    }));
+
+    const currentMedia = form.getValues('media') || [];
+
+    form.reset({
+      data: normalizedRows.length
+        ? normalizedRows
+        : [{ parameter: '', result: '', range: '', unit: '', reference: '' }],
+      media: currentMedia
+    });
+  };
+
+  useEffect(() => {
+    if (!isOpen.RESULT_UPLOAD_MODAL) return;
+    applyTemplateRows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen.RESULT_UPLOAD_MODAL, templateData]);
+
   return (
     <XModal
       closeModal={() => toggleModals({ name: AppModals.RESULT_UPLOAD_MODAL, open: false })}
@@ -167,7 +197,12 @@ const ResultUploadModal = () => {
                               name={`data.${index}.parameter`}
                               render={({ field }) => (
                                 <div>
-                                  <InputField label="" required {...field} />
+                                  <InputField
+                                    label=""
+                                    required
+                                    disabled={index < templateRowCount}
+                                    {...field}
+                                  />
                                 </div>
                               )}
                             />
@@ -189,7 +224,12 @@ const ResultUploadModal = () => {
                               name={`data.${index}.unit`}
                               render={({ field }) => (
                                 <div>
-                                  <InputField label="" required {...field} />
+                                  <InputField
+                                    label=""
+                                    required
+                                    disabled={index < templateRowCount}
+                                    {...field}
+                                  />
                                 </div>
                               )}
                             />
@@ -200,7 +240,12 @@ const ResultUploadModal = () => {
                               name={`data.${index}.range`}
                               render={({ field }) => (
                                 <div>
-                                  <InputField label="" required {...field} />
+                                  <InputField
+                                    label=""
+                                    required
+                                    disabled={index < templateRowCount}
+                                    {...field}
+                                  />
                                 </div>
                               )}
                             />
@@ -240,7 +285,7 @@ const ResultUploadModal = () => {
                 </Table>
               </div>
 
-              <div className="flex items-center justify-between space-x-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="mt-4 w-fit">
                   <Button
                     variant="filled"
@@ -258,16 +303,29 @@ const ResultUploadModal = () => {
                   />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Button
-                    disabled={isPending}
-                    type="button"
-                    className="!h-[35px] !w-auto !text-xs"
                     variant="light"
-                    text="Add Parameter"
+                    type="button"
+                    text="Reset template"
+                    className="!h-[35px] !w-auto !text-xs"
+                    onClick={applyTemplateRows}
+                    disabled={templateRowCount === 0}
+                  />
+                  <Button
+                    variant="light"
+                    type="button"
+                    text="Add parameter"
+                    className="!h-[35px] !w-auto !text-xs"
                     leftIcon={<Plus size={15} />}
                     onClick={() =>
-                      append({ parameter: '', result: '', range: '', unit: '', reference: '' })
+                      append({
+                        parameter: '',
+                        result: '',
+                        range: '',
+                        unit: '',
+                        reference: ''
+                      })
                     }
                   />
                   <Button

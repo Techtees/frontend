@@ -1,5 +1,5 @@
 'use client';
-import { EnumPatientForm, EnumRole } from '@/constants/mangle';
+import { EnumPatientForm } from '@/constants/mangle';
 import InsuranceForm from './components/Insurance';
 import ContactForm from './components/Contact';
 import PersonalForm from './components/Personal';

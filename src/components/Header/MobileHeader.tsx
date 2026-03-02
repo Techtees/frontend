@@ -8,7 +8,7 @@ import { defaultMenuConfig } from '@/config/menuItems';
 import InputSearch from '@/atoms/fields/InputSearch';
 import Button from '@/atoms/Buttons';
 
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from '@/components/ui/sheet';
 import { Menu, Search, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -46,7 +46,7 @@ const MobileHeader: React.FC = () => {
       >
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
-            <Image src="/logo.png" alt="Logo" width={120} height={80} />
+            <Image src="/logo.png" alt="Logo" width={70} height={40} />
           </div>
 
           <div className="flex items-center space-x-2">
@@ -65,10 +65,11 @@ const MobileHeader: React.FC = () => {
                 </button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[80%] p-0 sm:w-[350px]">
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <div className="flex h-full flex-col">
-                  <div className="flex items-center justify-between border-b p-4">
+                  {/* <div className="flex items-center justify-between border-b p-4">
                     <Image src="/logo.png" alt="Logo" width={100} height={60} />
-                  </div>
+                  </div> */}
 
                   <ScrollArea className="flex-1">
                     <div className="py-4">

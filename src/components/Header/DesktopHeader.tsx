@@ -133,6 +133,7 @@ const Header = () => {
             <Button
               variant="filled"
               className="hidden px-3 py-1.5 text-sm md:block md:px-4 md:py-2"
+              onClick={() => router.push(ROUTES.CONTACT_US.path)}
             >
               Contact us
             </Button>

@@ -28,7 +28,7 @@ type TPatientInfoResp = {
     homeAddress: string;
     city: string;
     state: string;
-    landmark?: string;
+    landmark: string;
     zipCode: string;
   };
   patientEmergencyContact: {

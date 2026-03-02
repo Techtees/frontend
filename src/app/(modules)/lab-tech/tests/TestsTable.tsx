@@ -51,11 +51,12 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Test Id</TableHead>
               <TableHead>Serial No.</TableHead>
               <TableHead>Test Name</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Date created</TableHead>
-              <TableHead>Requested Date</TableHead>
+              <TableHead>Appointment Date</TableHead>
               <TableHead>Deadline</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-[20px]"></TableHead>
@@ -68,6 +69,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
               <TableBody>
                 {tests.requests.map((test) => (
                   <TableRow key={test.id}>
+                    <TableCell>{test?.testId ?? '-'}</TableCell>
                     <TableCell className="whitespace-nowrap font-medium">
                       {test?.testSerialNo ?? '-'}
                     </TableCell>
@@ -142,7 +144,8 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                                   toggleModals({
                                     open: true,
                                     name: AppModals.RESULT_UPLOAD_MODAL,
-                                    testId: test.id
+                                    testId: test.id,
+                                    originalTestId: test.originalTestId || test.testId
                                   });
                                 }}
                               >

@@ -21,24 +21,14 @@ export const AdminSingleTestSchema = z
       .string({ required_error: 'Test category is required.' })
       .trim()
       .min(2, { message: 'Test category is required.' }),
-    price: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .min(0, { message: "Price amount can't be 0." })
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .refine((val) => val !== '', { message: 'Enter price.' })
-      .refine((val) => !val.startsWith('0'), { message: "Price can't start with 0." }),
-    discountedPrice: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .optional()
+    price: z.number({ required_error: 'Enter an amount.' }),
+    discountedPrice: z.number({ required_error: 'Enter an amount.' }).optional()
   })
   .superRefine((data, ctx) => {
     const { price, discountedPrice } = data;
 
     if (discountedPrice) {
-      if (parseInt(discountedPrice) > parseInt(price)) {
+      if (discountedPrice > price) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "discounted price can't be more than actual price",
@@ -60,31 +50,14 @@ export const AdminPackageTestSchema = z
       .min(2, { message: 'Test description is required.' }),
     requirements: z.string().trim().optional(),
     testIds: z.array(optionSchema, { required_error: 'Tests is required' }),
-    price: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .min(0, { message: "Price amount can't be 0." })
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .optional(),
-    discountedPrice: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .optional()
+    price: z.number({ required_error: 'Enter an amount.' }).optional(),
+    discountedPrice: z.number({ required_error: 'Enter an amount.' }).optional()
   })
   .superRefine((data, ctx) => {
     const { price, discountedPrice } = data;
 
-    if (price && price.startsWith('0')) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Price can't start with zero",
-        path: ['price']
-      });
-    }
-
     if (discountedPrice && price) {
-      if (parseInt(discountedPrice) > parseInt(price)) {
+      if (discountedPrice > price) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "discounted price can't be more than actual price",
@@ -94,6 +67,33 @@ export const AdminPackageTestSchema = z
     }
   });
 
+export const AdminTestTemplateParameterSchema = z.object({
+  name: z
+    .string({ required_error: 'Parameter name is required.' })
+    .trim()
+    .min(2, { message: 'Parameter name is required.' }),
+  measurement_unit: z
+    .string({ required_error: 'Measurement unit is required.' })
+    .trim()
+    .min(1, { message: 'Measurement unit is required.' }),
+  reference_range: z
+    .string({ required_error: 'Reference range is required.' })
+    .trim()
+    .min(1, { message: 'Reference range is required.' })
+});
+
+export const AdminTestTemplateSchema = z.object({
+  testId: z
+    .string({ required_error: 'Test is required.' })
+    .trim()
+    .min(1, { message: 'Test is required.' }),
+  parameters: z.array(AdminTestTemplateParameterSchema).min(1, {
+    message: 'At least one parameter is required.'
+  })
+});
+
 export type TAdminSingleTestSchema = z.infer<typeof AdminSingleTestSchema>;
 
 export type TAdminPackageTestSchema = z.infer<typeof AdminPackageTestSchema>;
+
+export type TAdminTestTemplateSchema = z.infer<typeof AdminTestTemplateSchema>;

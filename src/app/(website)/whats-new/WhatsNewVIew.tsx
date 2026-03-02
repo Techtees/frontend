@@ -113,7 +113,7 @@ const BlogListingPage = () => {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-12">
-        {featuredPost && (
+        {/* {featuredPost && (
           <div className="mb-16">
             <h2 className="text-gray-900 mb-6 text-2xl font-bold">Featured Article</h2>
             <div className="overflow-hidden rounded-xl bg-white shadow-lg">
@@ -154,9 +154,32 @@ const BlogListingPage = () => {
               </div>
             </div>
           </div>
-        )}
-
-        <div>
+        )} */}
+        <div className="mx-auto max-w-3xl py-20 text-center">
+          <div className="mb-8">
+            <div className="to-purple-100 mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-100">
+              <Calendar className="text-blue-600 h-10 w-10" />
+            </div>
+            <h2 className="text-gray-900 mb-4 text-4xl font-bold">Blog Coming Soon</h2>
+            <p className="text-gray-600 mb-8 text-xl">
+              We&apos;re preparing insightful articles about healthcare innovation, medical
+              research, and wellness tips. Stay tuned for expert insights from NBIOTEK LABS.
+            </p>
+            <div className="mb-8 flex justify-center gap-2">
+              <div className="bg-blue-500 h-3 w-3 animate-pulse rounded-full"></div>
+              <div className="bg-purple-500 h-3 w-3 animate-pulse rounded-full delay-75"></div>
+              <div className="bg-pink-500 h-3 w-3 animate-pulse rounded-full delay-150"></div>
+            </div>
+            <Link
+              href="/"
+              className="to-purple-600 hover:from-blue-700 hover:to-purple-700 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-400 px-6 py-3 font-semibold text-white shadow-lg transition-all"
+            >
+              Back to Home
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+        {/* <div>
           <h2 className="text-gray-900 mb-6 text-2xl font-bold">Latest Articles</h2>
           <div className="space-y-8">
             {regularPosts.map((post) => (
@@ -197,7 +220,7 @@ const BlogListingPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

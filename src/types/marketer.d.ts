@@ -19,6 +19,7 @@ interface TFieldOfficerDashboard {
 }
 interface TFieldTestRequest {
   id: string;
+  testId: string;
   patientName: string;
   testName: string;
   testDescription: string;

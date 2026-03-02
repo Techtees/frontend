@@ -18,6 +18,7 @@ type TTestType = {
 // =========== Tests ===============
 type TTestData = {
   id: string;
+  testId?: string;
   testSerialNo?: string;
   patientName: string;
   testName: string;
@@ -32,6 +33,7 @@ type TTestData = {
   createdAt: string;
   updatedAt: string;
   resultStatus: string;
+  originalTestId?: string;
   technician: {
     id: string;
     name: string;
@@ -165,3 +167,24 @@ type TAvailabiltyData = {
   status: string;
   lastUpdate: string;
 };
+
+type TTestTemplateParameter = {
+  id: string;
+  templateId: string;
+  name: string;
+  measurementUnit: string;
+  referenceRange: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TTestTemplateItem = {
+  id: string;
+  testId: string;
+  testName: string;
+  createdAt: string;
+  updatedAt: string;
+  parameters: TTestTemplateParameter[];
+};
+
+type TTestTemplatesResp = TTestTemplateItem[];

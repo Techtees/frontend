@@ -51,6 +51,7 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Test Id</TableHead>
             <TableHead>Serial No.</TableHead>
             <TableHead>Test Name</TableHead>
             <TableHead>Test type</TableHead>
@@ -74,6 +75,7 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
             <TableBody>
               {resultsData.requests.map((qcDatum) => (
                 <TableRow key={qcDatum.id}>
+                  <TableCell>{qcDatum?.testId ?? '-'}</TableCell>
                   <TableCell>{qcDatum?.testSerialNo ?? '-'}</TableCell>
                   <TableCell>{qcDatum.testName}</TableCell>
                   <TableCell>

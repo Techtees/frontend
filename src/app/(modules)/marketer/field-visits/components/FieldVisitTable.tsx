@@ -55,11 +55,11 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
         <Table className="bg-white">
           <TableHeader>
             <TableRow>
+              <TableHead>Test Id</TableHead>
               <TableHead>Patient Name</TableHead>
               <TableHead>Test Name</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead>Time</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-20"></TableHead>
             </TableRow>
@@ -71,11 +71,11 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
               <TableBody>
                 {fieldTask.map((fieldVisit) => (
                   <TableRow key={fieldVisit.id}>
+                    <TableCell>{fieldVisit.testId}</TableCell>
                     <TableCell>{fieldVisit.patientName}</TableCell>
                     <TableCell>{fieldVisit.testName}</TableCell>
                     <TableCell>{fieldVisit.location.address}</TableCell>
                     <TableCell>{dateTimeUTC(fieldVisit.createdAt)}</TableCell>
-                    <TableCell>10:00 AM</TableCell>
                     <TableCell>
                       <Status variant={fieldVisit.status} />
                     </TableCell>

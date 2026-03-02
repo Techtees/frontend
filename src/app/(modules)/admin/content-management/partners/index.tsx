@@ -22,7 +22,7 @@ const Partner = () => {
           <Button
             className="w-fit bg-blue-400"
             onClick={() => {
-              toggleModals({ name: AppModals.CREATE_HERO_CAROUSEL_MODAL, open: true, id: '' });
+              toggleModals({ name: AppModals.CREATE_PARTNER_MODAL, open: true, id: '' });
             }}
           >
             <Plus />

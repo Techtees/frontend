@@ -88,7 +88,8 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
                   toggleModals({
                     open: true,
                     name: AppModals.RESULT_UPLOAD_MODAL,
-                    testId: data.id
+                    testId: data.id,
+                    originalTestId: data?.test?.id
                   })
                 }
               />

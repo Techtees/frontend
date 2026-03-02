@@ -17,6 +17,8 @@ import {
   useMolecularTestsWithLoadMore,
   useAdvancedImagingTestsWithLoadMore
 } from '@/hooks/patient/useTest';
+import ROUTES from '@/constants/routes';
+import { useRouter } from 'next/navigation';
 
 const LabTestViewFallback = () => {
   return (
@@ -157,6 +159,7 @@ const LoadMoreButton = ({
 const LabTestContent = () => {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
+  const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(tabFromUrl || 'lab-tests');
@@ -268,8 +271,14 @@ const LabTestContent = () => {
 
             <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-3">
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">200+</div>
-                <div className="text-sm text-blue-100">{getTestType(activeTab)}</div>
+                <div className="text-2xl font-bold text-white">
+                  {isLoading ? (
+                    <Loader2 className="mx-auto h-6 w-6 animate-spin" />
+                  ) : (
+                    `${totalItems || 0}+`
+                  )}
+                </div>
+                <div className="text-sm text-blue-100">{getTestType(activeTab)} available</div>
               </div>
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
                 <div className="text-2xl font-bold text-white">24/7</div>
@@ -421,8 +430,33 @@ const LabTestContent = () => {
               <h2 className="text-gray-900 mb-3 text-2xl font-bold sm:text-3xl">
                 Molecular Diagnostics
               </h2>
-              <p className="text-gray-600 max-w-3xl text-lg">
-                Advanced molecular testing for precise genetic analysis and personalized medicine.
+              <p className="text-gray-600  text-lg">
+                Molecular diagnostics using polymerase chain reaction (PCR) technologies are at the
+                forefront of modern disease detection. These methods identify pathogens by analyzing
+                their genetic material, allowing for early and accurate diagnosis. <br />
+                <span className="font-semibold text-blue-200">
+                  Reverse Transcription PCR (RT-PCR)
+                </span>{' '}
+                remains the gold standard for detecting and monitoring viral and rare infections due
+                to its exceptional sensitivity and precision. <br />
+                <span className="font-semibold text-blue-200">
+                  Loop-Mediated Isothermal Amplification (LAMP PCR)
+                </span>{' '}
+                offers a rapid, accessible alternative, enabling DNA amplification at a constant
+                temperature and eliminating the need for complex laboratory equipment. <br />
+                <br />
+                <span className="block pb-3 pt-3 font-bold">Our Expertise</span>
+                Our molecular diagnostics team focuses on identifying hard-to-diagnose viral,
+                bacterial, and protozoan infections. Using both RT-PCR and LAMP PCR platforms, we
+                support accurate diagnosis and monitor treatment effectiveness to guide clinical
+                decisions.
+                <span className="block pb-3 pt-3 font-bold">
+                  Innovation for Resource-Limited Settings
+                </span>
+                We are committed to expanding diagnostic access through the development of
+                point-of-care LAMP testing kits designed specifically for resource-limited
+                environments. Our goal is to improve early detection, deliver reliable results where
+                they are needed most, and strengthen global health outcomes.
               </p>
             </div>
 
@@ -468,8 +502,27 @@ const LabTestContent = () => {
               <h2 className="text-gray-900 mb-3 text-2xl font-bold sm:text-3xl">
                 Advanced Imaging Services
               </h2>
-              <p className="text-gray-600 max-w-3xl text-lg">
-                State-of-the-art imaging technology for detailed diagnostic insights.
+              <p className="text-gray-600  text-lg">
+                Diagnostic imaging uses non-invasive technologies to visualize internal structures
+                and physiological processes, supporting accurate diagnosis, early detection, and
+                ongoing monitoring of medical conditions. Our services currently include{' '}
+                <span className="font-semibold text-blue-200">ultrasound</span> and{' '}
+                <span className="font-semibold text-blue-200">ocular</span> imaging, delivered with
+                a focus on accessibility, accuracy, and patient comfort.
+                <br />
+                <span className="block pb-3 pt-3 font-bold">At-Home Ultrasound</span>
+                With high-definition portable ultrasound systems, we provide essential diagnostic
+                imaging directly in patients’ homes—an invaluable service for pregnant women,
+                elderly individuals, and anyone with mobility challenges. Our technicians ensure a
+                safe, comfortable, and professional experience while delivering clinically reliable
+                imaging results.
+                <span className="block pb-3 pt-3 font-bold">At-Home Ocular Imaging</span>
+                Our at-home ocular imaging services help detect and monitor conditions such as{' '}
+                <span className="font-semibold text-blue-200">
+                  glaucoma, diabetic retinopathy, macular changes, and other chronic eye diseases.
+                </span>{' '}
+                By bringing advanced eye-health technology to the patient, we improve accessibility
+                and support early interventions that protect long-term vision.
               </p>
             </div>
 
@@ -555,6 +608,7 @@ const LabTestContent = () => {
               <Button
                 variant="outlined"
                 className="text-blue-600 w-full rounded-md border-blue-400 px-4 py-3 text-base font-semibold hover:bg-blue-50 sm:w-auto md:px-6 md:py-3.5 lg:px-8 lg:py-4 lg:text-lg"
+                onClick={() => router.push(ROUTES.CONTACT_US.path)}
               >
                 Contact Our Experts
               </Button>

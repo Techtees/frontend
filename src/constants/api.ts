@@ -22,6 +22,7 @@ export const PATIENT = {
   PROFILE: '/patients/profile',
   RECENT_RESULT: '/patients/dashboard/recent-activity',
   BILLING: '/payments' as string,
+  DOCTORS_FEES: '/super-admin/features',
 
   APPOINTMENTS: {
     UPCOMING: '/patients/appointments/upcoming',
@@ -87,7 +88,8 @@ export const LAB_TECH = {
   ARCHIVED_RESULTS: '/lab-technicians/archived-test-results',
   HISTORY_QC: '/lab-technicians/quality-control-history',
   UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status',
-  UPADTE_AVAILABILITY: '/lab-technicians/update-availability'
+  UPADTE_AVAILABILITY: '/lab-technicians/update-availability',
+  TEST_TEMPLATES: '/test-templates'
 } as const;
 
 export const LAB_COORD = {
@@ -131,6 +133,7 @@ export const TEST = {
 export const RECEPTIONIST = {
   DASHBOARD: '/receptionist/dashboard',
   APPOINTMENTS: '/receptionist/appointments',
+  BOOK_APPOINTMENT: '/receptionist/appointments',
   SINGLE_APPOINTMENT: '/receptionist/appointment/:id',
   UPDATE_APPOINTMENT: '/receptionist/appointments/update/:id'
 };
@@ -139,12 +142,15 @@ export const SUPER_ADMIN = {
   STATS: '/super-admin/dashboard/stats',
   USERS: '/super-admin/users',
   ADD_USER: '/super-admin/add-user',
+  PATIENTS: '/users/patient/all',
   SINGLE_TEST: '/tests/all-tests',
-  PACKAGE_TEST: '/tests/package-tests',
+  PACKAGE_TEST: '/admin/package-tests',
   SINGLE_PACKAGE_TEST: '/tests/single-package-tests/:id',
   TEST_ID: '/tests/single/:id',
   CREATE_SINGLE_TEST: '/tests/create',
   CREATE_PACKAGE_TEST: '/admin/package-tests',
+  TEST_TEMPLATES: '/test-templates',
+  TEST_TEMPLATE_ID: '/test-templates/:testId',
   DELETE_USER: '/super-admin/users/:id',
   SUSPEND_USER: '/super-admin/users/:id/suspend',
   UNSUSPEND_USER: '/super-admin/users/:id/status',
@@ -159,7 +165,9 @@ export const SUPER_ADMIN = {
   SINGLE_LANDING: '/super-admin/content-hero-sections/:id',
   TESTIMONIALS: '/super-admin/content-testimonials',
   SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id',
-  CONTENT_PARTNERS: '/super-admin/content-partners'
+  CONTENT_PARTNERS: '/super-admin/content-partners',
+  DOCTORS_FEES: '/super-admin/features',
+  UPDATE_DOCTOR_FEE: '/super-admin/features/:id'
 };
 
 export const UPLOADS = {

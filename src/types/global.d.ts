@@ -26,6 +26,11 @@ interface INBTPaginatedData<T> {
   pagination: TPaginationResponse;
 }
 
+interface INBTPaginatedPackageTestData<T> {
+  packages: Array<T>;
+  pagination: TPaginationResponse;
+}
+
 type TPaginationResponse = {
   total: number;
   page: number;

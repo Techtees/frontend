@@ -221,12 +221,23 @@ function genMonths(locale: Pick<Locale, 'options' | 'localize' | 'formatLong'>) 
   }));
 }
 
-function genYears(yearRange = 50) {
-  const today = new Date();
-  return Array.from({ length: yearRange * 2 + 1 }, (_, i) => ({
-    value: today.getFullYear() - yearRange + i,
-    label: (today.getFullYear() - yearRange + i).toString()
-  }));
+function getYearBounds(yearRange = 50, minYear?: number, maxYear?: number) {
+  const currentYear = new Date().getFullYear();
+  const startYear = minYear ?? currentYear - yearRange;
+  const endYear = maxYear ?? currentYear + yearRange;
+  return { startYear, endYear };
+}
+
+function genYears(yearRange = 50, minYear?: number, maxYear?: number) {
+  const { startYear, endYear } = getYearBounds(yearRange, minYear, maxYear);
+  const length = endYear - startYear + 1;
+  return Array.from({ length }, (_, i) => {
+    const year = startYear + i;
+    return {
+      value: year,
+      label: year.toString()
+    };
+  });
 }
 
 // ---------- utils end ----------
@@ -236,8 +247,16 @@ function Calendar({
   classNames,
   showOutsideDays = true,
   yearRange = 50,
+  minYear,
+  maxYear,
   ...props
-}: DayPickerProps & { yearRange?: number; hidden?: Matcher; showTime?: boolean }) {
+}: DayPickerProps & {
+  yearRange?: number;
+  minYear?: number;
+  maxYear?: number;
+  hidden?: Matcher;
+  showTime?: boolean;
+}) {
   const MONTHS = React.useMemo(() => {
     let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = enUS;
     const { options, localize, formatLong } = props.locale || {};
@@ -251,10 +270,16 @@ function Calendar({
     return genMonths(locale);
   }, []);
 
-  const YEARS = React.useMemo(() => genYears(yearRange), []);
+  const YEARS = React.useMemo(
+    () => genYears(yearRange, minYear, maxYear),
+    [yearRange, minYear, maxYear]
+  );
+  const { startYear, endYear } = React.useMemo(
+    () => getYearBounds(yearRange, minYear, maxYear),
+    [yearRange, minYear, maxYear]
+  );
   const disableLeftNavigation = () => {
-    const today = new Date();
-    const startDate = new Date(today.getFullYear() - yearRange, 0, 1);
+    const startDate = new Date(startYear, 0, 1);
     if (props.month) {
       return (
         props.month.getMonth() === startDate.getMonth() &&
@@ -264,8 +289,7 @@ function Calendar({
     return false;
   };
   const disableRightNavigation = () => {
-    const today = new Date();
-    const endDate = new Date(today.getFullYear() + yearRange, 11, 31);
+    const endDate = new Date(endYear, 11, 31);
     if (props.month) {
       return (
         props.month.getMonth() === endDate.getMonth() &&
@@ -720,6 +744,12 @@ type DateTimePickerProps = {
    * */
   yearRange?: number;
   /**
+   * Optional bounds for the year dropdown, inclusive.
+   * When provided, these override the range derived from yearRange.
+   */
+  minYear?: number;
+  maxYear?: number;
+  /**
    * The format is derived from the `date-fns` documentation.
    * @reference https://date-fns.org/v3.6.0/docs/format
    **/
@@ -755,6 +785,8 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
       onMonthChange,
       hourCycle = 24,
       yearRange = 50,
+      minYear,
+      maxYear,
       disabled = false,
       displayFormat,
       showTime = true,
@@ -865,7 +897,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
                   ? hourCycle === 24
                     ? initHourFormat.hour24
                     : initHourFormat.hour12
-                  : 'dd MMM, yy',
+                  : 'dd MMM, yyyy',
                 {
                   locale: loc
                 }
@@ -892,6 +924,8 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
             }}
             onMonthChange={handleMonthChange}
             yearRange={yearRange}
+            minYear={minYear}
+            maxYear={maxYear}
             locale={locale}
             {...props}
           />

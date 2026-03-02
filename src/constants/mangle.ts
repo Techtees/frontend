@@ -32,7 +32,8 @@ export enum EnumUserStatus {
   INACTIVE = 'inactive',
   INVITED = 'invited',
   SUSPENDED = 'suspended',
-  AVAILABLE = 'Available'
+  AVAILABLE = 'Available',
+  UNAVAILABLE = 'Unavailable'
 }
 
 export enum EnumTestLocation {
@@ -119,7 +120,8 @@ export enum EnumAdminContentMgt {
   FAQ = 'faq',
   ABOUT = 'about',
   CONTACT = 'contact',
-  PARTNERS = 'partners'
+  PARTNERS = 'partners',
+  DOCTORS_FEE = 'doctors-fee'
 }
 
 export enum EnumMediaVisibilityStatus {

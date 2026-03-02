@@ -21,7 +21,13 @@ class AppConfigStore {
   nonce = 0;
 
   testDetails = {
-    testId: ''
+    testId: '',
+    originalTestId: ''
+  };
+
+  testTemplateModal = {
+    testId: '',
+    mode: 'create' as 'create' | 'edit'
   };
 
   availableLabTechnicians: { testId: string; isReassign?: boolean } = {
@@ -69,6 +75,12 @@ class AppConfigStore {
     status: ''
   };
 
+  doctorFeeModal = {
+    id: '',
+    feature: '',
+    value: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -78,6 +90,7 @@ class AppConfigStore {
       mediaMultiple: observable,
       nonce: observable,
       testDetails: observable,
+      testTemplateModal: observable,
       queryLimit: observable,
       availableLabTechnicians: observable,
       availableMarketers: observable,
@@ -87,6 +100,8 @@ class AppConfigStore {
       testAvailability: observable,
       dataModal: observable,
       fileModalUpload: observable,
+      partnerModal: observable,
+      doctorFeeModal: observable,
 
       addFiles: action.bound,
       removeFiles: action.bound,
@@ -122,7 +137,8 @@ class AppConfigStore {
       case AppModals.RESULT_UPLOAD_MODAL:
         if (modal.open) {
           this.testDetails = {
-            testId: modal.testId
+            testId: modal.testId,
+            originalTestId: modal.originalTestId ?? ''
           };
         }
         break;
@@ -175,14 +191,24 @@ class AppConfigStore {
       case AppModals.ADMIN_SINGLE_TEST:
         if (modal.open) {
           this.testDetails = {
-            testId: modal.testId
+            testId: modal.testId,
+            originalTestId: ''
           };
         }
         break;
       case AppModals.ADMIN_PACKAGE_TEST:
         if (modal.open) {
           this.testDetails = {
-            testId: modal.testId
+            testId: modal.testId,
+            originalTestId: ''
+          };
+        }
+        break;
+      case AppModals.ADMIN_TEST_TEMPLATE:
+        if (modal.open) {
+          this.testTemplateModal = {
+            testId: modal.testId,
+            mode: modal.mode ?? 'create'
           };
         }
         break;
@@ -202,6 +228,14 @@ class AppConfigStore {
         break;
 
       case AppModals.ADMIN_UNSUSPEND_USER:
+        if (modal.open) {
+          this.data = {
+            id: modal.id
+          };
+        }
+        break;
+
+      case AppModals.DEL_TEST_TEMPLATE_MODAL:
         if (modal.open) {
           this.data = {
             id: modal.id
@@ -278,6 +312,24 @@ class AppConfigStore {
           this.dataModal = {
             id: modal.id
           };
+        }
+        break;
+      case AppModals.CREATE_DOCTOR_FEE_MODAL:
+        if (modal.open) {
+          this.doctorFeeModal.id = modal.id;
+
+          if (modal.feature) {
+            this.doctorFeeModal.feature = modal.feature;
+          }
+
+          if (modal.value) {
+            this.doctorFeeModal.value = modal.value;
+          }
+        }
+        break;
+      case AppModals.DEL_DOCTOR_FEE_MODAL:
+        if (modal.open) {
+          this.doctorFeeModal.id = modal.id;
         }
         break;
       default:

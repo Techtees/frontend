@@ -1,5 +1,4 @@
 'use client';
-
 import { Text } from '@/lib/utils/Text';
 import Input from '@/atoms/fields/Input';
 import { Label } from '@radix-ui/react-dropdown-menu';
@@ -20,8 +19,7 @@ const PersonalInfoView = () => {
       </div>
       <div className="mt-[7rem] bg-white p-3  md:p-[16px] lg:p-[24px]">
         <Text variant="title" weight="semibold" align="center" className="mb-4">
-          {' '}
-          Personal Information{' '}
+          Personal Information
         </Text>
         <div className="flex flex-col ">
           <Label className="mb-1 text-sm">Full Name</Label>

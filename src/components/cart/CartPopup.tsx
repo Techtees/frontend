@@ -64,7 +64,7 @@ export const CartPopup = observer(() => {
                       {cartItem.type === 'single' ? 'Individual Test' : 'Test Package'}
                     </p>
                     <div className="mt-1 text-sm">
-                      {'discountedPrice' in cartItem.item ? (
+                      {'discountedPrice' in cartItem.item && cartItem.item.discountedPrice !== 0 ? (
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-primary">
                             ₦{cartItem.item.discountedPrice}

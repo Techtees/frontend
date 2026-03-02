@@ -7,7 +7,7 @@ import { PatientPersonalSchema, TPatientPersonalSchema } from '../../validation'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { EnumRole } from '@/constants/mangle';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import { Form, FormField } from '@/components/ui/form';
@@ -24,8 +24,21 @@ function PersonalForm() {
     AuthStore: { user }
   } = useStore();
   const [disable, setDisable] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const minDobDate = new Date(1920, 0, 1);
+
+  const defaultValues = useMemo(() => {
+    let values = {};
+    if (user && user.role === EnumRole.PATIENT) {
+      values = { ...data };
+    }
+    values = { ...personalInfo };
+
+    return values;
+  }, [data, user, personalInfo]);
+
   const form = useForm<TPatientPersonalSchema>({
-    defaultValues: { ...data, ...personalInfo },
+    defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
@@ -61,8 +74,6 @@ function PersonalForm() {
       }
     }
   }, [isLoading, data, disable]);
-
-  console.log(data?.phone);
 
   return (
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
@@ -130,7 +141,15 @@ function PersonalForm() {
             <FormField
               control={form.control}
               name="phoneNumber"
-              render={({ field }) => <InputPhoneField label="Phone number" required {...field} />}
+              render={({ field }) => (
+                <InputPhoneField
+                  required
+                  label="Phone number"
+                  placeholder="8123456789"
+                  defaultCountry="NG"
+                  {...field}
+                />
+              )}
             />
 
             <FormField
@@ -145,8 +164,10 @@ function PersonalForm() {
                   displayFormat={{ hour24: 'yyyy/MM/dd' }}
                   value={field.value}
                   onChange={field.onChange}
-                  hidden={{ after: new Date() }}
+                  hidden={{ after: new Date(), before: minDobDate }}
                   showTime={false}
+                  minYear={1920}
+                  maxYear={currentYear}
                   required
                 />
               )}
@@ -183,7 +204,6 @@ function PersonalForm() {
                         items={maritalStatus}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        required
                         {...field}
                       />
                     </div>
@@ -203,7 +223,6 @@ function PersonalForm() {
                         format="%%%"
                         patternChar="%"
                         max={700}
-                        required
                         {...field}
                       />
                     </div>
@@ -221,7 +240,6 @@ function PersonalForm() {
                         format="%%%"
                         patternChar="%"
                         max={300}
-                        required
                         {...field}
                       />
                     </div>

@@ -42,7 +42,8 @@ export const useTestsWithLoadMore = (
     ...(category && { category }),
     limit: 5, // Fixed limit of 5 per load
     page,
-    ...(search && { search })
+    ...(search && { search }),
+    status: 'ACTIVE' as const // Only show active tests
   };
 
   const { data, isLoading, error, refetch } = useAllCategoryTests(baseParams, enabled);
@@ -100,7 +101,7 @@ export const useTestsWithLoadMore = (
     return false;
   }, [data?.data?.pagination?.hasNext, data?.data?.requests?.length, allData.length, enabled]);
 
-  const totalItems = data?.data?.pagination?.totalItems || 0;
+  const totalItems = data?.data?.pagination?.total || 0;
 
   return {
     data: enabled ? allData : [],

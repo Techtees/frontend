@@ -51,6 +51,34 @@ type TAdminTestItem = TAdminTestItemBase & {
   tests?: Array<TAdminTestItemBase>;
 };
 
+type TAdminTestTemplateParameter = {
+  name: string;
+  measurement_unit?: string;
+  reference_range?: string;
+  measurementUnit?: string;
+  referenceRange?: string;
+};
+
+type TAdminTestTemplateItem = {
+  id?: string;
+  testId: string;
+  testName?: string;
+  test?: { id: string; name: string };
+  parameters: Array<TAdminTestTemplateParameter>;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+type TAdminTestTemplateResp = {
+  templates: Array<TAdminTestTemplateItem>;
+  pagination?: TPaginationResponse;
+};
+
+type TAdminTestTemplatePayload = {
+  testId: string;
+  parameters: Array<TAdminTestTemplateParameter>;
+};
+
 type TChartQuery = {
   period: string;
 };
@@ -125,5 +153,61 @@ type TAdminPartnerItem = {
 
 type TAdminPartnerResp = {
   partners: Array<TAdminPartnerItem>;
+  pagination: TPaginationResponse;
+};
+
+type TAdminDoctorFeeItem = {
+  id: string;
+  feature: string;
+  value: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TAdminDoctorsFeeResp = {
+  features: Array<TAdminDoctorFeeItem>;
+  pagination: TPaginationResponse;
+};
+
+type TAdminTestQuery = TGeneralPaginatedQuery & {
+  status: string;
+  search?: string;
+};
+
+type TAdminPatientQuery = TGeneralPaginatedQuery & {
+  search?: string;
+  status?: string;
+};
+
+type TAdminPatientItem = {
+  id: string;
+  patientSerialNo: string;
+  email: string | null;
+  isProfileCompleted: boolean;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  profilePhoto: string;
+  createdAt: string;
+  updatedAt: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  profileStatus: string;
+  role: string;
+  patientPersonal: {
+    id: string;
+    maritalStatus: string | null;
+    gender: string;
+    dateOfBirth: string;
+    weight: string | null;
+    height: string | null;
+    primaryCarePhysician: string | null;
+  } | null;
+  appointments: Array<any>;
+};
+
+type TAdminPatientsResp = {
+  patients: Array<TAdminPatientItem>;
   pagination: TPaginationResponse;
 };

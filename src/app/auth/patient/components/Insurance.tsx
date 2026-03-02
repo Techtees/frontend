@@ -99,7 +99,6 @@ function InsuranceForm() {
                   label="Policy No"
                   format="%%%"
                   patternChar="%"
-                  required
                   {...field}
                 />
               </div>
@@ -117,7 +116,6 @@ function InsuranceForm() {
                   label="Group No"
                   format="%%%"
                   patternChar="%"
-                  required
                   {...field}
                 />
               </div>

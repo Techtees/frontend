@@ -11,13 +11,14 @@ const PatientInfoView = ({ id }: { id: string }) => {
   const { data, isLoading } = useFetchPatientInfo(id);
 
   const {
-    PatientStore: { receptSetPatientInfo, resetPatientStore }
+    PatientStore: { receptSetPatientInfo, resetPatientStore, personalInfo }
   } = useStore();
 
   useEffect(() => {
     if (!isLoading && data != undefined) {
       resetPatientStore();
       setPatientData(data);
+
       receptSetPatientInfo(data);
     }
   }, [data, isLoading]);
@@ -30,7 +31,7 @@ const PatientInfoView = ({ id }: { id: string }) => {
           <Skeleton className="h-96 w-full rounded-lg p-4 md:w-[50%]" />
         </div>
       ) : (
-        patientData && <RecptRegView {...{ patientData }} />
+        patientData && <RecptRegView patientData={patientData} />
       )}
     </>
   );

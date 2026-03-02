@@ -5,7 +5,8 @@ const userStatusSchema = z.union([
   z.literal(EnumUserStatus.ACTIVE),
   z.literal(EnumUserStatus.INACTIVE),
   z.literal(EnumUserStatus.INVITED),
-  z.literal(EnumUserStatus.SUSPENDED)
+  z.literal(EnumUserStatus.SUSPENDED),
+  z.literal(EnumUserStatus.UNAVAILABLE)
 ]);
 export type UserStatus = z.infer<typeof userStatusSchema>;
 

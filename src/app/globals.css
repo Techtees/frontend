@@ -121,6 +121,10 @@ body {
     @apply border-blue-400/30 bg-blue-400/10 !font-normal !text-blue-400;
   }
 
+  .status-neutral {
+    @apply border-neutral-400/30 bg-neutral-400/10 !font-normal !text-neutral-400;
+  }
+
   .notify_btn {
     @apply flex items-center justify-start space-x-1 rounded px-2 py-1 text-xs;
     @apply transition-all duration-300 hover:bg-opacity-60;

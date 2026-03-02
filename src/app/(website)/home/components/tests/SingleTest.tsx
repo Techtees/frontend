@@ -93,15 +93,6 @@ const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
                       <Info size={16} className="mr-1" />
                       View Details & Pricing
                     </Button>
-
-                    <Button
-                      variant="outlined"
-                      className="text-blue-600 flex flex-1 items-center justify-center border border-blue-400 text-sm font-medium transition-colors duration-200 hover:bg-blue-50"
-                      onClick={handleRequestQuote}
-                    >
-                      <MessageCircle size={16} className="mr-1" />
-                      Get Quote
-                    </Button>
                   </div>
 
                   <div className="border-gray-100 border-t pt-2 text-center">

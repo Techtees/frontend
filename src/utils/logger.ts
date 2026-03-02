@@ -40,7 +40,7 @@ export class Logger {
 
   error(message: string, error: unknown, ...optionalParams: unknown[]) {
     if (this.canLog(LogLevel.ERROR)) {
-      console.error(this.loggerTitle(LogLevel.ERROR), message, ...optionalParams);
+      // console.error(this.loggerTitle(LogLevel.ERROR), message, ...optionalParams);
     }
     const err = new Error(this.loggerTitle(LogLevel.ERROR, message));
     err.cause = error;

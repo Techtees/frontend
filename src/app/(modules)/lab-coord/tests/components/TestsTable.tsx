@@ -54,14 +54,15 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[80px]">Test Id</TableHead>
               <TableHead className="w-[80px]">Serial No.</TableHead>
-              <TableHead className="w-[280px]">Test</TableHead>
+              <TableHead className="w-[280px]">Test Name</TableHead>
               <TableHead className="w-[80px]">Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
               <TableHead className="w-[80px]">Location</TableHead>
               <TableHead className="">Doctor&apos;s recs</TableHead>
               <TableHead className="w-[150px]">Date created</TableHead>
-              <TableHead className="w-[150px]">Requested Date</TableHead>
+              <TableHead className="w-[150px]">Appointment Date</TableHead>
               <TableHead className="w-[150px]">Deadline</TableHead>
               <TableHead className="w-[80px]">Status</TableHead>
               <TableHead className="w-[20px]"></TableHead>
@@ -74,6 +75,7 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
               <TableBody>
                 {tests.requests.map((test) => (
                   <TableRow key={test.id}>
+                    <TableCell>{test.testId}</TableCell>
                     <TableCell className="whitespace-nowrap font-medium">
                       {test?.testSerialNo ?? ''}
                     </TableCell>

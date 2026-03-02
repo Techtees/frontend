@@ -24,11 +24,23 @@ type PackageTest = {
 type AllTestResponse = {
   data: {
     requests: SingleTest[];
+    pagination: {
+      total: number;
+      limit: number;
+      pages: number;
+      totalPages: number;
+    };
   };
 };
 
 type AllPackageTestResponse = {
   data: PackageTest[];
+  pagination: {
+    total: number;
+    limit: number;
+    pages: number;
+    totalPages: number;
+  };
 };
 
 interface TestQueryParams {
@@ -37,6 +49,7 @@ interface TestQueryParams {
   page?: number;
   limit?: number;
   search?: string;
+  status?: 'ACTIVE' | 'INACTIVE';
 }
 
 interface PaginatedResponse<T> {
@@ -46,6 +59,7 @@ interface PaginatedResponse<T> {
       currentPage: number;
       totalPages: number;
       totalItems: number;
+      total?: number;
       limit: number;
       hasNext: boolean;
       hasPrev: boolean;

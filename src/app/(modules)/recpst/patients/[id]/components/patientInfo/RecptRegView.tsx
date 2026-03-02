@@ -8,7 +8,6 @@ import { observer } from 'mobx-react-lite';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { PatientInsuranceSchema, TPatientInsuranceSchema } from '@/app/auth/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
 import ProfileCard from './ProfileCard';
 import { useState } from 'react';
@@ -24,15 +23,18 @@ export type TPatientOverviewProfile = {
 };
 
 const RecptRegView = ({ patientData }: { patientData: TPatientInfoResp }) => {
-  const router = useRouter();
-  const { homeAddress, city, state, landmark, zipCode } = patientData.patientContact;
-  const [profile, setProfile] = useState<TPatientOverviewProfile>({
-    name: `${patientData.firstName} ${patientData.lastName}`,
-    id: patientData.id,
-    gender: patientData.patientPersonal?.gender,
-    age: `${differenceInYears(new Date(), new Date(patientData.patientPersonal.dateOfBirth))} years`,
+  const {
+    PatientStore: { personalInfo }
+  } = useStore();
+  const [profile, _] = useState<TPatientOverviewProfile>({
+    name: `${patientData?.firstName} ${patientData?.lastName}`,
+    id: patientData?.id,
+    gender: patientData?.patientPersonal?.gender,
+    age: patientData?.patientPersonal?.dateOfBirth
+      ? `${differenceInYears(new Date(), new Date(patientData.patientPersonal.dateOfBirth))} years`
+      : '',
     mobile: patientData.phoneNumber,
-    address: `${homeAddress} ${city} ${state} ${landmark ?? ''}, ${zipCode}`
+    address: `${patientData?.patientContact?.homeAddress ?? ''} ${patientData?.patientContact?.city ?? ''} ${patientData?.patientContact?.state ?? ''} ${patientData?.patientContact?.landmark ?? ''}, ${patientData?.patientContact?.zipCode ?? ''}`
   });
   const {
     PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo }

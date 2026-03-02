@@ -30,8 +30,13 @@ const TestDetailsDialog = ({
 }: TestDetailsDialogProps) => {
   if (!test) return null;
 
-  const hasDiscount =
-    test.discountedPrice && test.discountedPrice > 0 && test.discountedPrice < test.price;
+  const discountAmount =
+    test.discountedPrice && test.discountedPrice > 0 && test.discountedPrice < test.price
+      ? test.price - test.discountedPrice
+      : 0;
+
+  const showDiscount = discountAmount > 0;
+
   const displayPrice =
     test?.discountedPrice === 0 || test.discountedPrice === undefined
       ? test.price
@@ -84,7 +89,7 @@ const TestDetailsDialog = ({
                   {testType === 'package' ? 'Package Price' : 'Test Price'}
                 </p>
                 <div className="flex items-center gap-3">
-                  {hasDiscount && (
+                  {showDiscount && (
                     <span className="text-gray-500 text-lg line-through">
                       ₦{test.price.toLocaleString()}
                     </span>
@@ -92,17 +97,17 @@ const TestDetailsDialog = ({
                   <span className="text-green-600 text-2xl font-bold">
                     ₦{displayPrice.toLocaleString()}
                   </span>
-                  {hasDiscount && (
+                  {showDiscount && (
                     <span className="rounded-full bg-green-500 px-2 py-1 text-sm text-white">
-                      Save ₦{(test.price - test.discountedPrice!).toLocaleString()}
+                      Save ₦{discountAmount.toLocaleString()}
                     </span>
                   )}
                 </div>
               </div>
               <div className="text-right">
-                {hasDiscount && (
+                {showDiscount && (
                   <p className="text-green-600 text-sm font-medium">
-                    {Math.round(((test.price - test.discountedPrice!) / test.price) * 100)}% OFF
+                    {Math.round((discountAmount / test.price) * 100)}% OFF
                   </p>
                 )}
               </div>

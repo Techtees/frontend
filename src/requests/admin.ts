@@ -8,6 +8,10 @@ import {
 import { TAdminHeroCarousel } from '@/store/AdminStore';
 import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
 import { TAdminCreatePartnerSchema } from '@/app/(modules)/admin/content-management/partners/validation';
+import {
+  TAdminPackageTestSchema,
+  TAdminSingleTestSchema
+} from '@/app/(modules)/admin/content-management/components/modals/validation';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -28,7 +32,7 @@ export interface IPostAddPackageTest {
 }
 
 // get
-export const getSingleTests = async (params: TGeneralPaginatedQuery) => {
+export const getSingleTests = async (params: Partial<TAdminTestQuery>) => {
   return server.get<INBTServerResp<INBTPaginatedData<TAdminTestItemBase>>>(
     SUPER_ADMIN.SINGLE_TEST,
     {
@@ -37,15 +41,23 @@ export const getSingleTests = async (params: TGeneralPaginatedQuery) => {
   );
 };
 
+export const getTestTemplates = async (params?: { testId?: string }) =>
+  server.get<INBTServerResp<TAdminTestTemplateResp>>(SUPER_ADMIN.TEST_TEMPLATES, {
+    params
+  });
+
 // post requests
 export const postAdduser = async (payload: TAdminAdduserSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.ADD_USER, payload);
 
-export const postAddSingleTest = async (payload: IPostAddSingleTest) =>
+export const postAddSingleTest = async (payload: TAdminSingleTestSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_SINGLE_TEST, payload);
 
-export const postAddPackageTest = async (payload: IPostAddPackageTest) =>
+export const postAddPackageTest = async (payload: TAdminPackageTestSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_PACKAGE_TEST, payload);
+
+export const postTestTemplate = async (payload: TAdminTestTemplatePayload) =>
+  server.post<INBTServerResp<string>>(SUPER_ADMIN.TEST_TEMPLATES, payload);
 
 export const postCreateHeroLanding = async (payload: TAdminCreateHeroSchema) =>
   server.post(SUPER_ADMIN.CREATE_LANDING, payload);
@@ -58,13 +70,16 @@ export const postCreatePartner = async (payload: TAdminCreatePartnerSchema) => {
   server.post(SUPER_ADMIN.CONTENT_PARTNERS, payload);
 };
 
+export const postCreateDoctorFee = async (payload: { feature: string; value: string }) =>
+  server.post(SUPER_ADMIN.DOCTORS_FEES, payload);
+
 // put requests
 export const putUpdateSingleTest = async ({
   id,
   payload
 }: {
   id: string;
-  payload: Partial<IPostAddSingleTest>;
+  payload: Partial<TAdminSingleTestSchema>;
 }) => server.put(SUPER_ADMIN.UPDATE_SINGLE_TEST.replace(':id', id), payload);
 
 export const putUpdatePackageTest = async ({
@@ -72,7 +87,7 @@ export const putUpdatePackageTest = async ({
   payload
 }: {
   id: string;
-  payload: Partial<IPostAddPackageTest>;
+  payload: Partial<TAdminPackageTestSchema>;
 }) => server.put(SUPER_ADMIN.UPDATE_PACKAGE_TEST.replace(':id', id), payload);
 
 export const putUpdateHero = async (
@@ -89,6 +104,11 @@ export const putUpdateTestimonial = async (id: string, payload: Partial<TAdminTe
 
 export const putUpdatePartner = async (id: string, payload: Partial<TAdminCreatePartnerSchema>) =>
   server.put(SUPER_ADMIN.CONTENT_PARTNERS.concat(':/id').replace(':id', id), payload);
+
+export const putUpdateDoctorFee = async (
+  id: string,
+  payload: { feature?: string; value?: string }
+) => server.put(SUPER_ADMIN.UPDATE_DOCTOR_FEE.replace(':id', id), payload);
 
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));
@@ -122,3 +142,6 @@ export const delTestimonial = async (id: string) =>
 
 export const delPartner = async (id: string) =>
   server.delete(SUPER_ADMIN.CONTENT_PARTNERS.concat('/:id').replace(':id', id));
+
+export const delTestTemplate = async (testId: string) =>
+  server.delete(SUPER_ADMIN.TEST_TEMPLATE_ID.replace(':testId', testId));

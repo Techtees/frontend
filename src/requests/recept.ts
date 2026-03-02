@@ -8,3 +8,7 @@ export const putUpdateAppt = ({ id, payload }: { id: string; payload: TApptInfoS
     payload
   );
 };
+
+export const postBookAppointment = (payload: BookAppointmentDTO) => {
+  return server.post<Appointment>(RECEPTIONIST.BOOK_APPOINTMENT, payload);
+};

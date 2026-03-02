@@ -30,5 +30,12 @@ export const labTech = {
           id
         ] as const
     };
+  },
+
+  getTestTemplates() {
+    return {
+      path: LAB_TECH.TEST_TEMPLATES,
+      keys: () => [QUERY_KEY.LAB_DASHBOARD, LAB_TECH.TEST_TEMPLATES] as const
+    };
   }
 };

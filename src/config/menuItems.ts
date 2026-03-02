@@ -148,6 +148,12 @@ export const menuConfig: Record<string, MenuItem[]> = {
       isNestable: true
     },
     {
+      title: ROUTES.LAB_TECH_TEST_TEMPLATES.title,
+      url: ROUTES.LAB_TECH_TEST_TEMPLATES.path,
+      icon: FileText,
+      isNestable: true
+    },
+    {
       title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
       icon: Book,
       url: ROUTES.LAB_TECH_RESULT_HISTORY.path,
@@ -230,6 +236,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.SUPER_ADMIN_USER_MANAGEMENT.title,
       url: ROUTES.SUPER_ADMIN_USER_MANAGEMENT.path,
       icon: User2Icon
+    },
+    {
+      title: ROUTES.SUPER_ADMIN_PATIENT_MANAGEMENT.title,
+      url: ROUTES.SUPER_ADMIN_PATIENT_MANAGEMENT.path,
+      icon: UsersIcon
     },
     {
       title: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.title,

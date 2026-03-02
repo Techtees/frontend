@@ -1,5 +1,6 @@
 import { upperCaseRegex, lowerCaseRegex, numberRegex, specialCharcterRegex } from '@/utils';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import { parsePhoneNumber } from 'libphonenumber-js/min';
 import { z } from 'zod';
 
 export const email = z
@@ -65,7 +66,7 @@ export const zipCode = z
   .trim()
   .refine((value) => value !== '', 'zip code is required.');
 
-export const maritalStatus = z.string({ required_error: 'Marital status is required.' }).trim();
+export const maritalStatus = z.string().trim().optional();
 export const gender = z.string({ required_error: 'Gender is required.' }).trim();
 export const dateOfBirth = z.date({ required_error: 'Date of birth is required.' });
 
@@ -174,9 +175,9 @@ export const PatientPersonalSchema = z
     maritalStatus,
     gender,
     dateOfBirth,
-    weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-    height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-    primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
+    weight: z.string().trim().optional(),
+    height: z.string().trim().optional(),
+    primaryCarePhysician: z.string().trim().optional()
   })
   .superRefine((data, ctx) => {
     const { phoneNumber } = data;
@@ -209,16 +210,27 @@ export const PatientContactSchema = z.object({
   city,
   state,
   landMark: landMark,
-  zipCode,
-  emergencyContact: z.object({
-    firstName,
-    lastName,
-    address: z
-      .string({ required_error: 'Address is required.' })
-      .trim()
-      .refine((value) => value !== '', 'Address is required.'),
-    phoneNumber
-  })
+  zipCode: z.string({ required_error: 'Zip code is required.' }).trim().optional(),
+  emergencyContact: z
+    .object({
+      firstName: z.string().trim().optional(),
+      lastName: z.string().trim().optional(),
+      address: z.string().trim().optional(),
+      phoneNumber: z.string().trim().optional()
+    })
+    .optional()
+    .superRefine((data, ctx) => {
+      const phoneNumber = data?.phoneNumber;
+      if (phoneNumber) {
+        const { number } = parsePhoneNumber(phoneNumber);
+        if (number.length != 14) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Invalid phone number'
+          });
+        }
+      }
+    })
 });
 
 export const PatientInsuranceSchema = z
@@ -255,24 +267,6 @@ export const PatientInsuranceSchema = z
           code: z.ZodIssueCode.custom,
           message: 'Insurance plan name is required when primary insurance is provided',
           path: ['insurancePlanName']
-        });
-      }
-
-      // Check policy number
-      if (!data.policyNumber) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Policy number is required when primary insurance is provided',
-          path: ['policyNumber']
-        });
-      }
-
-      // Check group number
-      if (!data.groupNumber) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Group number is required when primary insurance is provided',
-          path: ['groupNumber']
         });
       }
 

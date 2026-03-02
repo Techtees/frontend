@@ -49,6 +49,7 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Test Id</TableHead>
               <TableHead>Serial No.</TableHead>
               <TableHead>Test type</TableHead>
               <TableHead>Priority</TableHead>
@@ -68,6 +69,7 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
               <TableBody>
                 {resultsData.results.map((resultDatum) => (
                   <TableRow key={resultDatum.id}>
+                    <TableCell>{resultDatum?.testId ?? '-'}</TableCell>
                     <TableCell className="font-medium">
                       {resultDatum?.testSerialNo ?? '-'}
                     </TableCell>

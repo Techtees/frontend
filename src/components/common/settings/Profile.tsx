@@ -22,6 +22,8 @@ import InputPhoneField from '@/atoms/fields/InputPhone';
 
 const Profile = () => {
   const [profile, setProfile] = useState<Partial<TProfileSettingsSchema>>({});
+  const currentYear = new Date().getFullYear();
+  const minDobDate = new Date(1920, 0, 1);
   const { data, isLoading, status } = useFetchProfileSettings();
   const {
     SettingsStore: { updateProfile, isSettingsLoading }
@@ -182,8 +184,10 @@ const Profile = () => {
                         displayFormat={{ hour24: 'yyyy/MM/dd' }}
                         value={field.value}
                         onChange={field.onChange}
-                        hidden={{ after: new Date() }}
+                        hidden={{ after: new Date(), before: minDobDate }}
                         showTime={false}
+                        minYear={1920}
+                        maxYear={currentYear}
                       />
                     </div>
                   )}

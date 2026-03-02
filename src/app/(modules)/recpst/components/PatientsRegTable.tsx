@@ -84,9 +84,8 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
                       <DropdownMenuTrigger>
                         <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
                       </DropdownMenuTrigger>
-
-                      <DropdownMenuContent className="">
-                        {patient.isProfileCompleted && (
+                      <DropdownMenuContent>
+                        {patient.isProfileCompleted ? (
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(
@@ -95,6 +94,16 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
                             }
                           >
                             View
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              router.push(
+                                `${ROUTES.RECPTS_PATIENT_DETAILS.path.replaceAll(':id', patient.id)}`
+                              )
+                            }
+                          >
+                            Edit
                           </DropdownMenuItem>
                         )}
                       </DropdownMenuContent>

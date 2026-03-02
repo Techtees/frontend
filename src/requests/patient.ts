@@ -13,7 +13,7 @@ export type TPatientRegPayload = {
     lastName: string;
     email?: string;
     phoneNumber: string;
-    maritalStatus: string;
+    maritalStatus?: string;
     gender: string;
     dateOfBirth: Date;
     weight?: string | number;
@@ -52,6 +52,7 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
     gender: string;
     height: number;
     weight: number;
+    phoneNumber: string;
   };
 
   type TPatientContact = {
@@ -97,19 +98,20 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
   if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);
   if (payload.personal?.weight) patientPersonal.weight = Number(payload.personal.weight);
+  if (payload.personal?.phoneNumber) patientPersonal.phoneNumber = payload.personal.phoneNumber;
 
   if (payload.contact?.homeAddress) patientContact.homeAddress = payload.contact.homeAddress;
   if (payload.contact?.city) patientContact.city = payload.contact.city;
   if (payload.contact?.state) patientContact.state = payload.contact.state;
   if (payload.contact?.zipCode) patientContact.zipCode = payload.contact.zipCode;
 
-  if (payload?.contact?.emergencyContact.firstName)
+  if (payload?.contact?.emergencyContact?.firstName)
     patientEmergencyContact.firstName = payload?.contact?.emergencyContact.firstName;
-  if (payload?.contact?.emergencyContact.lastName)
+  if (payload?.contact?.emergencyContact?.lastName)
     patientEmergencyContact.lastName = payload?.contact?.emergencyContact.lastName;
-  if (payload?.contact?.emergencyContact.phoneNumber)
+  if (payload?.contact?.emergencyContact?.phoneNumber)
     patientEmergencyContact.phoneNumber = payload?.contact?.emergencyContact.phoneNumber;
-  if (payload?.contact?.emergencyContact.address)
+  if (payload?.contact?.emergencyContact?.address)
     patientEmergencyContact.address = payload?.contact?.emergencyContact.address;
 
   if (payload.insurance?.primaryInsuranceProvider)

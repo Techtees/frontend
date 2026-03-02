@@ -8,6 +8,7 @@ import { forwardRef, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
+import Button from '@/atoms/Buttons';
 
 export interface Option {
   value: string;
@@ -76,8 +77,11 @@ export interface MultipleSelectorProps {
     'value' | 'placeholder' | 'disabled'
   >;
   /** hide the clear all button. */
+  fetchNextPage: () => void;
+  hasNextPage?: boolean;
   hideClearAllButton?: boolean;
   lastElementRef?: React.RefObject<HTMLDivElement | null>;
+  isFetching?: boolean;
 }
 
 export interface MultipleSelectorRef {
@@ -193,7 +197,9 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
       commandProps,
       inputProps,
       hideClearAllButton = false,
-      lastElementRef
+      fetchNextPage,
+      hasNextPage,
+      isFetching
     }: MultipleSelectorProps,
     ref: React.Ref<MultipleSelectorRef>
   ) => {
@@ -599,9 +605,23 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                       </>
                     </CommandGroup>
                   ))}
-                  {lastElementRef && <div ref={lastElementRef}></div>}
                 </>
               )}
+
+              <div className="flex w-full items-center justify-center p-3">
+                {hasNextPage && (
+                  <Button
+                    className="w-auto"
+                    type="button"
+                    variant="filled"
+                    isLoading={isFetching}
+                    disabled={isFetching}
+                    onClick={fetchNextPage}
+                  >
+                    Load more
+                  </Button>
+                )}
+              </div>
             </CommandList>
           )}
         </div>

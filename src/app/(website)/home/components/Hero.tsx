@@ -7,46 +7,50 @@ import ROUTES from '@/constants/routes';
 
 const analytics = [
   {
-    title: 'Technicians',
-    number: 1000,
+    title: 'Tests Available',
+    number: '60+',
     icons: '/test.png'
   },
+
   {
-    title: 'Doctors',
-    number: 1000,
-    icons: '/doctor.png'
-  },
-  {
-    title: 'Customers',
-    number: 6000,
+    title: 'Serving Communities',
+    number: '1000+',
     icons: '/customer.png'
   }
 ];
 
 const carouselImages = [
   {
-    src: '/hero1.png',
-    title: 'Conference',
+    src: '/hero6.png',
+    title: 'Our World-Class Facility',
     description:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati illum rem fugiat laborum hic fuga sint',
-    buttonText: 'View More',
-    buttonColor: 'bg-red-300'
+      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
+    buttonText: 'Our Services',
+    buttonColor: 'bg-green-400'
+  },
+  {
+    src: '/hero5.png',
+    title: 'World-Class Diagnostics',
+    description:
+      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
+    buttonText: 'Our Services',
+    buttonColor: 'bg-green-400'
+  },
+  {
+    src: '/hero1.png',
+    title: 'Healthcare Innovation',
+    description:
+      'Advancing medical excellence through collaboration, education, and cutting-edge diagnostic solutions that transform patient care',
+    buttonText: 'Discover More',
+    buttonColor: 'bg-blue-400'
   },
   {
     src: '/hero2.png',
-    title: 'Research',
+    title: 'Research & Development',
     description:
-      'Our cutting-edge research facilities enable groundbreaking discoveries in healthcare and biotechnology',
-    buttonText: 'Learn More',
-    buttonColor: 'bg-blue-300'
-  },
-  {
-    src: '/hero3.png',
-    title: 'Laboratory',
-    description:
-      'State-of-the-art equipment and expert technicians ensure accurate and reliable test results',
-    buttonText: 'Tour Lab',
-    buttonColor: 'bg-green-300'
+      'Empowering groundbreaking discoveries with state-of-the-art facilities for molecular biology, biotechnology, and medical research',
+    buttonText: 'Explore R&D',
+    buttonColor: 'bg-purple-400'
   }
 ];
 
@@ -139,7 +143,7 @@ const Hero = () => {
               </div>
 
               <div className="mt-6 sm:mt-8 lg:mt-12">
-                <div className="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+                <div className="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
                   {analytics.map((item, index) => (
                     <div
                       key={index}
@@ -187,7 +191,7 @@ const Hero = () => {
                     width={800}
                     height={800}
                     priority={index === currentSlide}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-center "
                   />
                   <div className="absolute left-0 top-0 flex h-full w-full flex-col justify-end">
                     <div className="w-full space-y-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-6 pb-6 pt-16 text-white lg:space-y-4 lg:px-8 lg:pb-8 lg:pt-20">

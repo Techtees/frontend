@@ -1,21 +1,14 @@
 'use client';
-import { Card } from '@/components/ui/card';
 import PartnerLoader from './PartnerLoader';
 import Partner from './Partner';
 import EmptyPartners from './EmptyPartners';
-import { Edit2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfig/appModalTypes';
 
 interface IPartnerContentProps {
   data: TAdminPartnerResp | undefined;
   isLoading: boolean;
 }
 const PartnerContent = ({ isLoading, data }: IPartnerContentProps) => {
-  const {
-    AppConfigStore: { toggleModals }
-  } = useStore();
   return (
     <div className="w-full">
       {isLoading && <PartnerLoader />}

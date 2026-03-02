@@ -21,7 +21,7 @@ const Partner = ({ partner }: IHeroCarouselProps) => {
           variant="outline"
           onClick={() =>
             toggleModals({
-              name: AppModals.CREATE_HERO_CAROUSEL_MODAL,
+              name: AppModals.CREATE_PARTNER_MODAL,
               open: true,
               id: id
             })
@@ -34,7 +34,7 @@ const Partner = ({ partner }: IHeroCarouselProps) => {
           variant="destructive"
           onClick={() =>
             toggleModals({
-              name: AppModals.DEL_HERO_CAROUSEL,
+              name: AppModals.DEL_PARTNER,
               open: true,
               id: id
             })
@@ -43,17 +43,19 @@ const Partner = ({ partner }: IHeroCarouselProps) => {
           <Trash />
         </Button>
       </div>
-      <figure className="aspect-landscape w-full">
-        <Image
-          src={media[0].file_url}
-          priority
-          quality={100}
-          fill
-          sizes="100vw"
-          className="h-full w-full object-cover"
-          alt={''}
-        />
-      </figure>
+      {media && (
+        <figure className="aspect-landscape w-full">
+          <Image
+            src={media[0].file_url}
+            priority
+            quality={100}
+            fill
+            sizes="100vw"
+            className="h-full w-full object-cover"
+            alt={''}
+          />
+        </figure>
+      )}
     </div>
   );
 };

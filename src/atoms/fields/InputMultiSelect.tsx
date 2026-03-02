@@ -7,7 +7,6 @@ import { forwardRef } from 'react';
 
 interface IInputMultiSelectProps extends MultipleSelectorProps {
   label: string;
-  isLoading: boolean;
   required?: boolean;
 }
 
